@@ -1,0 +1,29 @@
+{
+  "name": "wazunga-blog-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "dependencies": {
+    "body-parse": "^0.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WazungaCompany/wazunga-blog-api.git"
+  },
+  "author": "Sergio Bernal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WazungaCompany/wazunga-blog-api/issues"
+  },
+  "homepage": "https://github.com/WazungaCompany/wazunga-blog-api#readme"
+}
