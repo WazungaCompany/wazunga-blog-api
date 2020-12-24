@@ -6,7 +6,7 @@ mongoose.connect(mongoUri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false,
-    dbName: 'wazunga-blog-api'
+    dbName: process.env.MONGO_DB
 }).catch(err => console.log(err));
 
 const Schema = mongoose.Schema;
