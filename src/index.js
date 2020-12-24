@@ -1,22 +1,21 @@
 const express = require("express");
 const db = require("./config/db");
-
+const app = require("./app.js");
 require("dotenv").config();
 
 const PORT = process.env.PORT;
 
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send("<h1> Welcome to wazunga blog API </h1>")
+// Check if have an error on database connection
+db.mongoose.connection.on('error', () => {
+    console.log('>> Error on connect.');
 });
 
 // Successfully connection
 db.mongoose.connection.on('connected', () => {
-  console.log('> Database connected.');
+  console.log('>> Database connected.');
   // Server on-line
   app.listen(PORT, () => {
-    console.log(`> Server running`);
-    console.log('> Press Ctrl-C to terminate');
+    console.log(`>> Server running`);
+    console.log('>> Press Ctrl-C to terminate');
   });
 });
