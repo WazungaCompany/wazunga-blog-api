@@ -1,7 +1,7 @@
 const express = require("express");
+require("dotenv").config(); // IMPORTANT: Importar este modulo antes que aquellos en donde se use .env
 const db = require("./config/db");
 const app = require("./app.js");
-require("dotenv").config();
 
 const PORT = process.env.PORT;
 
@@ -17,5 +17,5 @@ db.mongoose.connection.on('connected', () => {
   app.listen(PORT, () => {
     console.log(`>> Server running`);
     console.log('>> Press Ctrl-C to terminate');
-  });
+  }); 
 });

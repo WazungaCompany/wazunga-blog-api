@@ -5,11 +5,13 @@ const User = require("../models/users");
  * TODO: Se deben agregar validaciones en las propiedades
  */
 exports.addUser = function (req, res) {
-  const user = req.body;
-  User.create(user, (err, result) => {
-    res.status(200).send({
-      status_code: res.statusCode,
-      result
+    const user = req.body;
+    User.create(user, (error, newUser) => {
+        if (error)
+            console.log(error.errors.user_name.properties.message);
+        res.status(200).send({
+            status_code: res.statusCode,
+            newUser
+        })
     })
-  })
 }

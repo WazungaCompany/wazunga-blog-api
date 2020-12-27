@@ -7,8 +7,12 @@ const db = require("../config/db");
  * TODO: Agregar propiedaddes faltantes y validaciones
  */
 const userSchema = new db.Schema({
-  user_name: String,
-  user_created_at: { type: Date, default: Date.now }
+    user_name: {
+        type: String,
+        minlength: 3,
+        required: true
+    },
+    user_created_at: { type: Date, default: Date.now }
 });
 
 module.exports = db.mongoose.model('users', userSchema);
