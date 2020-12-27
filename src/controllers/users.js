@@ -1,4 +1,5 @@
 const User = require("../models/users");
+const { successRequest, badRequest } = require("../utils/reponsesHandler");
 
 /** Para agregar un usuario se reciben las propiedades
  * de este atraves del body.
@@ -8,10 +9,7 @@ exports.addUser = function (req, res) {
     const user = req.body;
     User.create(user, (error, newUser) => {
         if (error)
-            console.log(error.errors.user_name.properties.message);
-        res.status(200).send({
-            status_code: res.statusCode,
-            newUser
-        })
+            return badRequest(res, error.errors.user_name.properties.message);
+        return successRequest(res, newUser);
     })
 }
