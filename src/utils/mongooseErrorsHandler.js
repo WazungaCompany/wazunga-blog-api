@@ -37,6 +37,16 @@ exports.validationError = function(err) {
               }
             };
             break;
+          case "user defined":
+            path = fieldProps.path;
+            error = {
+              ...error,
+              [path]: {
+                msg: fieldProps.message,
+                kind: fieldProps.kind,
+              }
+            };
+            break;
         }
       }
       break;
