@@ -12,6 +12,11 @@ const userSchema = new db.Schema({
         minlength: 3,
         required: true
     },
+    user_lastname: {
+        type: String,
+        minlength: 3,
+        required: true
+    },
     user_created_at: { type: Date, default: Date.now }
 });
 

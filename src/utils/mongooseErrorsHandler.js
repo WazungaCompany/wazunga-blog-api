@@ -1,4 +1,5 @@
 const { Error } = require("mongoose");
+let error = {};
 
 /**
  * Cuando se dispare un error en los validators de cualquier field
@@ -7,19 +8,33 @@ const { Error } = require("mongoose");
  * @param {Error.ValidationError} err
  * @returns {Object} error: Error message
  */
-exports.validationError = function (err) {
-  let error = undefined;
+exports.validationError = function(err) {
   switch (err.name) {
     case "ValidationError":
+      let path = "";
       for (field in err.errors) {
         const fieldProps = err.errors[field];
         switch (fieldProps.kind) {
           // TODO: Se debn agregar los mensaje de error de manera mas
           // personalizada
           case "minlength":
+            path = fieldProps.path;
             error = {
-              msg: err.errors[field].message,
-              kind: err.errors[field].kind,
+              ...error,
+              [path]: {
+                msg: fieldProps.message,
+                kind: fieldProps.kind,
+              }
+            };
+            break;
+          case "required":
+            path = fieldProps.path;
+            error = {
+              ...error,
+              [path]: {
+                msg: fieldProps.message,
+                kind: fieldProps.kind,
+              }
             };
             break;
         }

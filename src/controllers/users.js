@@ -12,6 +12,7 @@ exports.addUser = function (req, res) {
   const user = req.body;
   User.create(user, (err, newUser) => {
     if (err) {
+      console.log(err.errors);
       const error = validationError(err);
       return badRequest(res, error);
     }
