@@ -1,5 +1,6 @@
 const User = require("../models/users");
 const { validationError } = require("../utils/mongooseErrorsHandler");
+const { existsRegister } = require("../utils/mongooseQueryHelper");
 const { 
     successResponse,
     badResponse,
@@ -37,4 +38,23 @@ exports.getUsers = function (req, res) {
             return notFoundResponse(res, 'Users');
         return successResponse(res, users);
     });
+}
+
+/** Actualizar un usuario, es necesario que en req.body se envie la propiedad
+ * usuario_id, de lo contrario no se podra ejecutar la funcion update
+ * @param {Request} req
+ * @param {Response} res
+ */
+exports.updateUser = async function (req, res) {
+    const user = req.body;
+    console.log(Object.keys(user).length);
+    if (Object.keys(user).length === 0 || user.constructor === {})
+        return badResponse(res, { user: { msg: 'No fueron enviados los parametros necesarios' } });
+    const { user_id } = user;
+    if (!user_id)
+        return badResponse(res, { user_id: { msg: 'No se recibio el id del usuario' } });
+    const userExists = await existsRegister(User, user_id);
+    if (!userExists)
+        return notFoundResponse(res, `User -> ${user_id}`); 
+    return successResponse(res, "works")
 }
