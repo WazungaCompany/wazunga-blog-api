@@ -30,7 +30,7 @@ exports.addUser = function (req, res) {
  * @param {Response} res
  */
 exports.getUsers = function (req, res) {
-    User.find((err, users) => {
+    User.find({ user_name: 'sergio' }, (err, users) => {
         if (err)
             return internalServerErrorResponse(res, err);
         if (users.length < 1)

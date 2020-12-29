@@ -38,6 +38,9 @@ exports.badResponse = function(res, errors) {
  * @param {any} errors
  */
 exports.notFoundResponse = function(res, errors) {
+    errors = {
+        msg: `Not found: ${errors}`
+    }
     res.status(CLIENT_ERROR_CODES.not_found).send({
         status_code: res.statusCode,
         errors
@@ -51,9 +54,6 @@ exports.notFoundResponse = function(res, errors) {
  * @param {any} errors
 */
 exports.internalServerErrorResponse = function(res, errors) {
-    errors = {
-        msg: `Not found: ${errors}`
-    }
     res.status(SERVER_ERROR_CODES.internal_server_error).send({
         status_code: res.statusCode,
         errors
