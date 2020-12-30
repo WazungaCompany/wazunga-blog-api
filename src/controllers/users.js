@@ -16,9 +16,9 @@ const {
  */
 exports.addUser = function (req, res) {
     const user = req.body;
+    console.log(user);
     User.create(user, (err, newUser) => {
         if (err) {
-            console.log(err.errors);
             const error = validationError(err);
             return badResponse(res, error);
         }
@@ -31,7 +31,7 @@ exports.addUser = function (req, res) {
  * @param {Response} res
  */
 exports.getUsers = function (req, res) {
-    User.find((err, users) => {
+    User.find({ user_status: { $ne: false } }, (err, users) => {
         if (err)
             return internalServerErrorResponse(res, err);
         if (users.length < 1)
@@ -68,22 +68,25 @@ exports.updateUser = async function (req, res) {
 
 /** Eliminar un usuario, es necesario que en req.body se envie la propiedad
  * usuario_id, de lo contrario no se podra ejecutar la funcion update
- * TODO: Implement delete method, but using an status value
+ * TODO: Implement delete method, but using a status value
  * @param {Request} req
  * @param {Response} res
  */
 exports.deleteUser = async function(req, res) {
-    const { user_id } = req.body;
+    const user = req.body;
+    const { user_id } = user;
     // Verificar si el id del usuario fu enviado
     if (!user_id)
         return badResponse(res, { user_id: { msg: 'No se recibio el id del usuario' } });
     const userExists = await existsRegister(User, user_id);
     // Verificar si el usuario existe
     if (!userExists)
-        return notFoundResponse(res, `User -> ${user_id}`); 
-    User.findByIdAndUpdate(user_id, nUser, { new: true }, (err, result) => {
+        return notFoundResponse(res, `User -> ${user_id}`);
+    user.user_status = false;
+    User.findByIdAndUpdate(user_id, user, { new: true }, (err, result) => {
         if(err)
             return internalServerErrorResponse(res, err);
+        console.log(result);
         // Enviar el usuario actualizado
         return successResponse(res, result);
     });

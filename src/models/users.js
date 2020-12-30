@@ -29,6 +29,7 @@ const userSchema = new db.Schema({
       message: 'Email invalido'
     }
   },
+  user_status: { type: Boolean, default: true },
   user_created_at: { type: Date, default: Date.now }
 });
 
