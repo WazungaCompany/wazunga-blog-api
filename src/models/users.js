@@ -1,5 +1,23 @@
 const db = require("../config/db");
+const isAnEmail = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
 
+const emailValidators = [
+  {
+    validator: function(value) {
+      return isAnEmail.test(value);
+    },
+    message: 'Email no valido'
+  },
+  {
+    validator: async function(value) {
+      const exists = await User.findOne({ user_email: value });
+      return !exists ? true : false;
+    },
+    message: 'Email ya existe'
+  }
+]
 /** Aqui se define la estructura de la coleccion (tabla), cada 
  * propiedad del objeto representa un atributo de la coleccion.
  * Forma corta de crear un atributo `campo: TipoDato`
@@ -20,17 +38,11 @@ const userSchema = new db.Schema({
   user_email: {
     type: String,
     required: true,
-    validate: {
-      validator: function(value) {
-        if (value.length < 3)
-          return false;
-        return true;
-      },
-      message: 'Email invalido'
-    }
+    validate: emailValidators
   },
   user_status: { type: Boolean, default: true },
   user_created_at: { type: Date, default: Date.now }
 });
 
-module.exports = db.mongoose.model('users', userSchema);
+const User = db.mongoose.model('users', userSchema);
+module.exports = User;

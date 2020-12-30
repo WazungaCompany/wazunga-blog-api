@@ -10,13 +10,11 @@ const {
 
 /** Para agregar un usuario se reciben las propiedades
  * de este atraves del body.
- * TODO: Se deben agregar validaciones en las propiedades
  * @param {Request} req
  * @param {Response} res
  */
 exports.addUser = function (req, res) {
     const user = req.body;
-    console.log(user);
     User.create(user, (err, newUser) => {
         if (err) {
             const error = validationError(err);
@@ -67,8 +65,7 @@ exports.updateUser = async function (req, res) {
 }
 
 /** Eliminar un usuario, es necesario que en req.body se envie la propiedad
- * usuario_id, de lo contrario no se podra ejecutar la funcion update
- * TODO: Implement delete method, but using a status value
+ * usuario_id, de lo contrario no se podra ejecutar la funcion delete.
  * @param {Request} req
  * @param {Response} res
  */
@@ -87,7 +84,7 @@ exports.deleteUser = async function(req, res) {
         if(err)
             return internalServerErrorResponse(res, err);
         console.log(result);
-        // Enviar el usuario actualizado
+        // Enviar el usuario se ha eliminado
         return successResponse(res, result);
     });
 }
