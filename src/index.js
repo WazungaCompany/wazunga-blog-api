@@ -12,10 +12,10 @@ db.mongoose.connection.on('error', () => {
 
 // Successfully connection
 db.mongoose.connection.on('connected', () => {
-  console.log('>> Database connected.');
-  // Server on-line
-  app.listen(PORT, () => {
-    console.log(`>> Server running`);
-    console.log('>> Press Ctrl-C to terminate');
-  }); 
+    console.log('>> Database connected.');
+    // Server on-line
+    app.listen(PORT, () => {
+        console.log(`>> Server running at: http://localhost:${PORT}/`);
+        console.log('>> Press Ctrl-C to terminate');
+    }); 
 });
