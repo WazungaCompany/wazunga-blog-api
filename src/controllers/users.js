@@ -1,7 +1,9 @@
+const bcrypt = require("bcrypt");
 const User = require("../models/users");
+const { BCRYPT_SALT } = require("../data/constants");
 const { validationError } = require("../utils/mongooseErrorsHandler");
 const { existsRegister } = require("../utils/mongooseQueryHelper");
-const { 
+const {
     successResponse,
     badResponse,
     notFoundResponse,
@@ -13,14 +15,30 @@ const {
  * @param {Request} req
  * @param {Response} res
  */
-exports.addUser = function (req, res) {
+exports.addUser = function(req, res) {
     const user = req.body;
     User.create(user, (err, newUser) => {
         if (err) {
             const error = validationError(err);
             return badResponse(res, error);
         }
-        return successResponse(res, newUser);
+        bcrypt.hash(newUser.user_password, BCRYPT_SALT, (err, hash) => {
+            if (err)
+                return internalServerErrorResponse(res, err);
+            /*bcrypt.compare(newUser.user_password, hash, (err, result) => {
+                if (err)
+                    return internalServerErrorResponse(res, err);
+                return successResponse(res, result);
+            });*/
+            newUser.user_password = hash;
+            User.findByIdAndUpdate(newUser._id, newUser, { new: true }, (err, result) => {
+                if (err)
+                    return internalServerErrorResponse(res, err);
+                // Enviar el usuario actualizado
+                return successResponse(res, result);
+            });
+        });
+        // return successResponse(res, newUser);
     });
 };
 
@@ -28,7 +46,7 @@ exports.addUser = function (req, res) {
  * @param {Request} req
  * @param {Response} res
  */
-exports.getUsers = function (req, res) {
+exports.getUsers = function(req, res) {
     User.find({ user_status: { $ne: false } }, (err, users) => {
         if (err)
             return internalServerErrorResponse(res, err);
@@ -43,7 +61,7 @@ exports.getUsers = function (req, res) {
  * @param {Request} req
  * @param {Response} res
  */
-exports.updateUser = async function (req, res) {
+exports.updateUser = async function(req, res) {
     const nUser = req.body;
     // Verificar si el req.body contiene las propiedades del user
     if (Object.keys(nUser).length <= 1 || nUser.constructor === {})
@@ -59,7 +77,7 @@ exports.updateUser = async function (req, res) {
     // Adding updating date
     nUser.user_updated_at = new Date();
     User.findByIdAndUpdate(user_id, nUser, { new: true }, (err, result) => {
-        if(err)
+        if (err)
             return internalServerErrorResponse(res, err);
         // Enviar el usuario actualizado
         return successResponse(res, result);
@@ -83,7 +101,7 @@ exports.deleteUser = async function(req, res) {
         return notFoundResponse(res, `User -> ${user_id}`);
     user.user_status = false;
     User.findByIdAndUpdate(user_id, user, { new: true }, (err, result) => {
-        if(err)
+        if (err)
             return internalServerErrorResponse(res, err);
         console.log(result);
         // Enviar el usuario se ha eliminado
