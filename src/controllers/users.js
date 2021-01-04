@@ -56,6 +56,7 @@ exports.updateUser = async function (req, res) {
     // Verificar si el usuario existe
     if (!userExists)
         return notFoundResponse(res, `User -> ${user_id}`); 
+    nUser.user_updated_at = new Date();
     User.findByIdAndUpdate(user_id, nUser, { new: true }, (err, result) => {
         if(err)
             return internalServerErrorResponse(res, err);
