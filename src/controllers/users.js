@@ -108,3 +108,34 @@ exports.deleteUser = async function(req, res) {
         return successResponse(res, result);
     });
 }
+
+/** Loggear un usuario, son requeridos el email del usuario y el password en
+ * texto plano
+ * @param {Request} req
+ * @param {Response} res
+ */
+exports.loginUser = function(req, res) {
+    const { user_email, user_password } = req.body;
+    // Verificar parametros
+    if (!user_email || !user_password)
+        return badResponse(res, {
+            user: {
+                msg: 'No se recibieron los parametros necesarios'
+            }
+        });
+    User.findOne({ user_email: user_email }, (err, user) => {
+        if (err)
+            return internalServerErrorResponse(res, 'Primero');
+        if (!user)
+            return notFoundResponse(res, `User -> ${user_email}`);
+        bcrypt.compare(user_password, user.user_password, (err, result) => {
+            if (err)
+                return internalServerErrorResponse(res, 'Segundo');
+            if (!result)
+                return badResponse(res, { user_password: {
+                    msg: 'La contraseña es incorrecta'
+                } });
+            return successResponse(res, user);
+        });
+    });
+}
