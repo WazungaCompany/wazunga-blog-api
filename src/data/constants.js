@@ -16,3 +16,5 @@ exports.SERVER_ERROR_CODES = {
     not_implemented: 501, // La funcion solicitada no ha sido implementada
     service_unavailable: 503, // El servicio o funcion solicitada no esta disponible
 }
+
+exports.BCRYPT_SALT = 10; 
