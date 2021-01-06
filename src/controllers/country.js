@@ -1,6 +1,3 @@
-/**
- * this is a page for config country on file controllers
- */
 const Country = require("../models/countries");
 const { validationError } = require("../utils/mongooseErrorsHandler");
 const { existsRegister } = require("../utils/mongooseQueryHelper");
@@ -54,12 +51,12 @@ exports.updateCountry = async function(req, res) {
         return badResponse(res, { country: { msg: 'No fueron enviados los parametros necesarios' } });
     const { country_id } = nCountry;
 
-    // Verificar si el id del usuario fu enviado
+    // Verificar si el id del country fue enviado
     if (!country_id)
         return badResponse(res, { country_id: { msg: 'No se recibio el id del pais' } });
     const countryExists = await existsRegister(Country, country_id);
 
-    // Verificar si el usuario existe
+    // Verificar si el country existe
     if (!countryExists)
         return notFoundResponse(res, `Country -> ${country_id}`);
 
@@ -94,7 +91,7 @@ exports.deleteCountry = async function(req, res) {
         if (err)
             return internalServerErrorResponse(res, err);
         console.log(result);
-        // Enviar el usuario se ha eliminado
+        // Enviar el country se elimino
         return successResponse(res, result);
     });
 }
