@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const path = require('path');
-const { routes, usersRoutes } = require("./routes/routes");
+const { routes, usersRoutes, countriesRoutes } = require("./routes/routes");
 
 // initialize app
 const app = express();
@@ -37,5 +37,6 @@ app.use(function (req, res, next) {
 // define routes
 app.use('/', routes);
 app.use('/users', usersRoutes);
+app.use('/country', countriesRoutes);
 
 module.exports = app;
