@@ -42,7 +42,7 @@ app.use(function (req, res, next) {
 // define routes
 app.use('/', routes);
 app.use('/users', usersRoutes);
-app.use('/country', countriesRoutes);
+app.use('/countries', countriesRoutes);
 app.use('/comments', commentsRoutes);
 
 module.exports = app;
