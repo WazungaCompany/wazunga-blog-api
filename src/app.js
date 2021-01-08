@@ -1,7 +1,12 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const path = require('path');
-const { routes, usersRoutes, countriesRoutes } = require("./routes/routes");
+const { 
+    routes, 
+    usersRoutes, 
+    countriesRoutes,
+    commentsRoutes
+} = require("./routes/routes");
 
 // initialize app
 const app = express();
@@ -38,5 +43,6 @@ app.use(function (req, res, next) {
 app.use('/', routes);
 app.use('/users', usersRoutes);
 app.use('/country', countriesRoutes);
+app.use('/comments', commentsRoutes);
 
 module.exports = app;
