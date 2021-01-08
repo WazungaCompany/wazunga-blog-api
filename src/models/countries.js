@@ -49,5 +49,5 @@ const countrySchema = new db.Schema({
     }
 });
 
-const Country = db.mongoose.model('country', countrySchema);
+const Country = db.mongoose.model('countries', countrySchema);
 module.exports = Country;

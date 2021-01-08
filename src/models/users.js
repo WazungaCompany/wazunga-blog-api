@@ -71,8 +71,15 @@ const userSchema = new db.Schema({
     },
     user_status: { type: Boolean, default: true },
     user_created_at: { type: Date, default: Date.now },
-    user_updated_at: { type: Date, default: Date.now }
+    user_updated_at: { type: Date, default: Date.now },
+    user_country: {
+        type: db.Schema.Types.ObjectId,
+        ref: 'countries',
+        autopopulate: true
+    }
 });
+
+userSchema.plugin(require('mongoose-autopopulate'));
 
 const User = db.mongoose.model('users', userSchema);
 module.exports = User;

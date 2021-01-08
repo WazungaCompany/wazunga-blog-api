@@ -4,7 +4,7 @@ const {
     getCountry,
     updateCountry,
     deleteCountry,
-} = require("../controllers/country");
+} = require("../controllers/countries");
 
 countryRouter.route('/')
     .get(getCountry)
