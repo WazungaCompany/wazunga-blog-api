@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const usersRouter = require("./users");
 const countriesRouter = require("./countries");
+<<<<<<< HEAD
 const commentsRouter = require("./comments");
+=======
+const categoriesRouter = require("./categories");
+>>>>>>> manasestest
 
 router.get('/', (_, res) => {
     res.send({
@@ -13,5 +17,9 @@ module.exports = {
     routes: router,
     usersRoutes: usersRouter,
     countriesRoutes: countriesRouter,
+<<<<<<< HEAD
     commentsRoutes: commentsRouter
+=======
+    categoriesRoutes: categoriesRouter
+>>>>>>> manasestest
 }

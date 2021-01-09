@@ -44,5 +44,6 @@ app.use('/', routes);
 app.use('/users', usersRoutes);
 app.use('/countries', countriesRoutes);
 app.use('/comments', commentsRoutes);
+app.use('/categories', categoriesRoutes);
 
 module.exports = app;
