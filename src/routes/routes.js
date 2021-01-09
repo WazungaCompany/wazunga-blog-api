@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const usersRouter = require("./users");
 const countriesRouter = require("./countries");
+const categoriesRouter = require("./categories");
 
 router.get('/', (req, res) => {
     res.send({
@@ -11,5 +12,6 @@ router.get('/', (req, res) => {
 module.exports = {
     routes: router,
     usersRoutes: usersRouter,
-    countriesRoutes: countriesRouter
+    countriesRoutes: countriesRouter,
+    categoriesRoutes: categoriesRouter
 }
